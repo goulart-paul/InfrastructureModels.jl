@@ -3,7 +3,7 @@
 Computes the valid domain of a given JuMP variable taking into account bounds
 and the varaible's implicit bounds (e.g. binary).
 """
-function variable_domain(var::JuMP.VariableRef)
+function variable_domain(var::JuMP.GenericVariableRef)
     lb = -Inf
     if JuMP.has_lower_bound(var)
         lb = JuMP.lower_bound(var)
@@ -25,7 +25,7 @@ end
 
 
 "constraint: `c^2 + d^2 <= a*b`"
-function relaxation_complex_product(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef, d::JuMP.VariableRef)
+function relaxation_complex_product(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef, d::JuMP.GenericVariableRef)
     a_lb, a_ub = variable_domain(a)
     b_lb, b_ub = variable_domain(b)
 
@@ -35,7 +35,7 @@ function relaxation_complex_product(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.
 end
 
 "constraint: `c^2  <= a*b`"
-function relaxation_complex_product(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef)
+function relaxation_complex_product(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef)
     a_lb, a_ub = variable_domain(a)
     b_lb, b_ub = variable_domain(b)
 
@@ -45,7 +45,7 @@ function relaxation_complex_product(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.
 end
 
 "a conic encoding of constraint: `c^2 + d^2 <= a*b`"
-function relaxation_complex_product_conic(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef, d::JuMP.VariableRef)
+function relaxation_complex_product_conic(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef, d::JuMP.GenericVariableRef)
     a_lb, a_ub = variable_domain(a)
     b_lb, b_ub = variable_domain(b)
 
@@ -55,7 +55,7 @@ function relaxation_complex_product_conic(m::JuMP.Model, a::JuMP.VariableRef, b:
 end
 
 "a conic encoding of constraint: `c^2  <= a*b`"
-function relaxation_complex_product_conic(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef)
+function relaxation_complex_product_conic(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef)
     a_lb, a_ub = variable_domain(a)
     b_lb, b_ub = variable_domain(b)
 
@@ -66,7 +66,7 @@ end
 
 
 "on/off variant of relaxation_complex_product controlled by indicator variable z"
-function relaxation_complex_product_on_off(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef, d::JuMP.VariableRef, z::JuMP.VariableRef)
+function relaxation_complex_product_on_off(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef, d::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef)
     a_lb, a_ub = variable_domain(a)
     b_lb, b_ub = variable_domain(b)
     c_lb, c_ub = variable_domain(c)
@@ -84,7 +84,7 @@ function relaxation_complex_product_on_off(m::JuMP.Model, a::JuMP.VariableRef, b
 end
 
 "on/off variant of relaxation_complex_product controlled by indicator variable z"
-function relaxation_complex_product_on_off(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef, z::JuMP.VariableRef)
+function relaxation_complex_product_on_off(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef)
     a_lb, a_ub = InfrastructureModels.variable_domain(a)
     b_lb, b_ub = InfrastructureModels.variable_domain(b)
     c_lb, c_ub = InfrastructureModels.variable_domain(c)
@@ -98,7 +98,7 @@ function relaxation_complex_product_on_off(m::JuMP.Model, a::JuMP.VariableRef, b
 end
 
 "on/off variant of relaxation_complex_product controlled by indicator variable z, variant with a fixed value of z"
-function relaxation_complex_product_on_off(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef, d::JuMP.VariableRef, z::Real)
+function relaxation_complex_product_on_off(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef, d::JuMP.GenericVariableRef, z::Real)
     @assert isapprox(z, 1.0) || isapprox(z, 0.0)
 
     if isapprox(z, 1.0)
@@ -111,7 +111,7 @@ function relaxation_complex_product_on_off(m::JuMP.Model, a::JuMP.VariableRef, b
 end
 
 "on/off variant of relaxation_complex_product controlled by indicator variable z in  the conic form"
-function relaxation_complex_product_conic_on_off(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef, d::JuMP.VariableRef, z::JuMP.VariableRef)
+function relaxation_complex_product_conic_on_off(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef, d::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef)
     a_lb, a_ub = InfrastructureModels.variable_domain(a)
     b_lb, b_ub = InfrastructureModels.variable_domain(b)
     c_lb, c_ub = InfrastructureModels.variable_domain(c)
@@ -127,7 +127,7 @@ function relaxation_complex_product_conic_on_off(m::JuMP.Model, a::JuMP.Variable
 end
 
 "on/off variant of relaxation_complex_product controlled by indicator variable z in  the conic form"
-function relaxation_complex_product_conic_on_off(m::JuMP.Model, a::JuMP.VariableRef, b::JuMP.VariableRef, c::JuMP.VariableRef, z::JuMP.VariableRef)
+function relaxation_complex_product_conic_on_off(m::JuMP.GenericModel, a::JuMP.GenericVariableRef, b::JuMP.GenericVariableRef, c::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef)
     a_lb, a_ub = InfrastructureModels.variable_domain(a)
     b_lb, b_ub = InfrastructureModels.variable_domain(b)
     c_lb, c_ub = InfrastructureModels.variable_domain(c)
@@ -142,7 +142,7 @@ end
 
 
 "an on/off variant of x == y, controlled by the indicator variable z"
-function relaxation_equality_on_off(m::JuMP.Model, x::JuMP.VariableRef, y::JuMP.VariableRef, z::JuMP.VariableRef)
+function relaxation_equality_on_off(m::JuMP.GenericModel, x::JuMP.GenericVariableRef, y::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef)
     # assumes 0 is in the domain of y when z is 0
     x_lb, x_ub = variable_domain(x)
 
@@ -151,7 +151,7 @@ function relaxation_equality_on_off(m::JuMP.Model, x::JuMP.VariableRef, y::JuMP.
 end
 
 "an on/off variant of x == y, controlled by the indicator variable z, a variant for fixed z"
-function relaxation_equality_on_off(m::JuMP.Model, x::JuMP.VariableRef, y::JuMP.VariableRef, z::Real)
+function relaxation_equality_on_off(m::JuMP.GenericModel, x::JuMP.GenericVariableRef, y::JuMP.GenericVariableRef, z::Real)
     @assert isapprox(z, 1.0) || isapprox(z, 0.0)
 
     if isapprox(z, 1.0)
@@ -169,7 +169,7 @@ general relaxation of a square term
 x^2 <= y <= (JuMP.upper_bound(x)+JuMP.lower_bound(x))*x - JuMP.upper_bound(x)*JuMP.lower_bound(x)
 ```
 """
-function relaxation_sqr(m::JuMP.Model, x::JuMP.VariableRef, y::JuMP.VariableRef)
+function relaxation_sqr(m::JuMP.GenericModel, x::JuMP.GenericVariableRef, y::JuMP.GenericVariableRef)
     x_lb, x_ub = variable_domain(x)
 
     JuMP.@constraint(m, y >= x^2)
@@ -187,7 +187,7 @@ z <= JuMP.lower_bound(x)*y + JuMP.upper_bound(y)*x - JuMP.lower_bound(x)*JuMP.up
 z <= JuMP.upper_bound(x)*y + JuMP.lower_bound(y)*x - JuMP.upper_bound(x)*JuMP.lower_bound(y)
 ```
 """
-function relaxation_product(m::JuMP.Model, x::JuMP.VariableRef, y::JuMP.VariableRef, z::JuMP.VariableRef)
+function relaxation_product(m::JuMP.GenericModel, x::JuMP.GenericVariableRef, y::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef)
     x_lb, x_ub = variable_domain(x)
     y_lb, y_ub = variable_domain(y)
 
@@ -202,7 +202,7 @@ end
 On/Off variant of a relaxed binlinear term (McCormick)
 requires that all variables (x,y,z) go to zero with ind
 """
-function relaxation_product_on_off(m::JuMP.Model, x::JuMP.VariableRef, y::JuMP.VariableRef, z::JuMP.VariableRef, ind::JuMP.VariableRef)
+function relaxation_product_on_off(m::JuMP.GenericModel, x::JuMP.GenericVariableRef, y::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef, ind::JuMP.GenericVariableRef)
     x_lb, x_ub = variable_domain(x)
     y_lb, y_ub = variable_domain(y)
     z_lb, z_ub = variable_domain(z)
@@ -223,7 +223,7 @@ On/Off variant of a relaxed binlinear term (McCormick)
 requires that all variables (x,y,z) go to zero with ind
 Variant where ind is a fixed value and not a variable
 """
-function relaxation_product_on_off(m::JuMP.Model, x::JuMP.VariableRef, y::JuMP.VariableRef, z::JuMP.VariableRef, ind::Real)
+function relaxation_product_on_off(m::JuMP.GenericModel, x::JuMP.GenericVariableRef, y::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef, ind::Real)
     @assert isapprox(ind, 1.0) || isapprox(ind, 0.0)
 
     if isapprox(ind, 1.0)
@@ -251,7 +251,7 @@ z = (λ₁ + λ₃ + λ₅ + λ₇)*JuMP.lower_bound(z) + (λ₂ + λ₄ + λ₆
 λ₁ + λ₂ + λ₃ + λ₄ + λ₅ + λ₆ + λ₇ + λ₈ = 1
 ```
 """
-function relaxation_trilinear(m::JuMP.Model, x::JuMP.VariableRef, y::JuMP.VariableRef, z::JuMP.VariableRef, w::JuMP.VariableRef, lambda)
+function relaxation_trilinear(m::JuMP.GenericModel, x::JuMP.GenericVariableRef, y::JuMP.GenericVariableRef, z::JuMP.GenericVariableRef, w::JuMP.GenericVariableRef, lambda)
     @assert length(lambda) == 8
 
     x_lb, x_ub = variable_domain(x)
